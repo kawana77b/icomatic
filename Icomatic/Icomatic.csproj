@@ -11,6 +11,11 @@
     <PublishTrimmed>true</PublishTrimmed>
     <TrimMode>link</TrimMode>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+	<Authors>Shimarisu_121</Authors>
+    <Copyright>Shimarisu_121</Copyright>
+	<Description>Generator for batch generation of icon sets for websites, etc., from image file or URL.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">

@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+env:
+  PACKAGE_NAME: icomatic
+
+jobs:
+  release:
+    runs-on: windows-2022
+    timeout-minutes: 5
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build Program
+        run: dotnet build --no-restore -c Release
+
+      - name: Set Tag
+        run: Write-Output ("VERSION=" + ("${{ github.ref_name }}" -replace 'v', '')) >> "$env:GITHUB_ENV"
+
+      - name: Publish Program for Windows
+        run: dotnet publish --no-restore -r win-x64 -c Release --property Version="$env:VERSION" --output ./publish/${{ env.PACKAGE_NAME }}_win_x64
+
+      - name: Publish Program for Linux
+        run: dotnet publish --no-restore -r linux-x64 -c Release --property Version="$env:VERSION" --output ./publish/${{ env.PACKAGE_NAME }}_linux_x64
+
+      - name: Zip
+        run: |
+          mkdir -Force ./dist
+          Compress-Archive -Path ${{ github.workspace }}\publish\${{ env.PACKAGE_NAME }}_win_x64 -DestinationPath ./dist/${{ env.PACKAGE_NAME }}_win_x64.zip
+          Compress-Archive -Path ${{ github.workspace }}\publish\${{ env.PACKAGE_NAME }}_linux_x64 -DestinationPath ./dist/${{ env.PACKAGE_NAME }}_linux_x64.zip
+          ls ./dist
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ./dist/${{ env.PACKAGE_NAME }}_win_x64.zip
+            ./dist/${{ env.PACKAGE_NAME }}_linux_x64.zip
+          generate_release_notes: true
+          draft: true
