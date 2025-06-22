@@ -2,7 +2,14 @@
 
 Generator for batch generation of icon sets for websites, etc., from image file or URL.
 
+It is a so-called common tool. Basically, it was created for me personally.
+
 ![demo](/docs/images/demo.png)
+
+## install
+
+It is built for Windows x64 and Linux x64.
+Binaries are available on the [release page](https://github.com/kawana77b/icomatic/releases).
 
 ## usage
 
