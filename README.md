@@ -11,6 +11,18 @@ It is a so-called common tool. Basically, it was created for me personally.
 It is built for Windows x64 and Linux x64.
 Binaries are available on the [release page](https://github.com/kawana77b/icomatic/releases).
 
+## development
+
+Install the .NET 10.0.403 SDK or later. `global.json` selects the latest installed stable .NET 10 SDK.
+Self-contained releases use .NET runtime 10.0.14.
+
+```bash
+dotnet restore
+dotnet build --no-restore -c Release
+dotnet publish Icomatic/Icomatic.csproj --no-restore -r win-x64 -c Release
+dotnet publish Icomatic/Icomatic.csproj --no-restore -r linux-x64 -c Release
+```
+
 ## usage
 
 Displays a set of icons in the current folder. Prompts you to generate an icon set with your selections.

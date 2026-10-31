@@ -1,6 +1,6 @@
 ####################################################################################################
 Package:ConsoleTables
-Version:2.6.2
+Version:2.7.0
 project URL:https://github.com/khalidabuhakmeh/ConsoleTables
 Description:Allows you to print out objects in a table view in a console application. Should be helpful for the diehard console fans.
 licenseUrl:https://licenses.nuget.org/MIT
@@ -8,7 +8,7 @@ license Type:MIT
 
 ####################################################################################################
 Package:Magick.NET-Q16-AnyCPU
-Version:14.6.0
+Version:15.0.0
 project URL:https://github.com/dlemstra/Magick.NET
 Description:ImageMagick is a powerful image manipulation library that supports over 100 major file formats (not including sub-formats). With Magick.NET you can use ImageMagick without having to install ImageMagick on your server or desktop. Visit https://github.com/dlemstra/Magick.NET/tree/main/docs before installing to help you decide the best version.
 licenseUrl:https://licenses.nuget.org/Apache-2.0
@@ -16,7 +16,7 @@ license Type:Apache-2.0
 
 ####################################################################################################
 Package:Magick.NET.Core
-Version:14.6.0
+Version:15.0.0
 project URL:https://github.com/dlemstra/Magick.NET
 Description:ImageMagick is a powerful image manipulation library that supports over 100 major file formats (not including sub-formats). With Magick.NET you can use ImageMagick without having to install ImageMagick on your server or desktop. Visit https://github.com/dlemstra/Magick.NET/tree/main/docs before installing to help you decide the best version.
 licenseUrl:https://licenses.nuget.org/Apache-2.0
@@ -24,7 +24,7 @@ license Type:Apache-2.0
 
 ####################################################################################################
 Package:Microsoft.Extensions.DependencyInjection
-Version:9.0.6
+Version:10.0.14
 project URL:https://dot.net/
 Description:Default implementation of dependency injection for Microsoft.Extensions.DependencyInjection.
 licenseUrl:https://licenses.nuget.org/MIT
@@ -32,7 +32,7 @@ license Type:MIT
 
 ####################################################################################################
 Package:Sharprompt
-Version:3.0.0
+Version:3.2.0
 project URL:
 Description:Interactive command-line based application framework for C#
 licenseUrl:https://licenses.nuget.org/MIT
@@ -40,7 +40,7 @@ license Type:MIT
 
 ####################################################################################################
 Package:System.CommandLine
-Version:2.0.0-beta5.25306.1
+Version:2.0.14
 project URL:https://github.com/dotnet/command-line-api
 Description:Support for parsing command lines, supporting both POSIX and Windows conventions and shell-agnostic command line completions.
 licenseUrl:https://licenses.nuget.org/MIT
