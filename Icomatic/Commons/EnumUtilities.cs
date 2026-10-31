@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Icomatic.Commons
 {
@@ -10,7 +11,7 @@ namespace Icomatic.Commons
         /// <typeparam name="T">The enum type</typeparam>
         /// <param name="value">The enum value</param>
         /// <returns>The display name or empty string if not found</returns>
-        public static string ToDisplayName<T>(T value) where T : struct
+        public static string ToDisplayName<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(T value) where T : struct, Enum
         {
             return GetDisplayAttribute(value).Name ?? string.Empty;
         }
@@ -21,7 +22,7 @@ namespace Icomatic.Commons
         /// <typeparam name="T">The enum type</typeparam>
         /// <param name="value">The enum value</param>
         /// <returns>The description or empty string if not found</returns>
-        public static string ToDisplayDescription<T>(T value) where T : struct
+        public static string ToDisplayDescription<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(T value) where T : struct, Enum
         {
             return GetDisplayAttribute(value).Description ?? string.Empty;
         }
@@ -32,10 +33,10 @@ namespace Icomatic.Commons
         /// <typeparam name="T">The enum type</typeparam>
         /// <param name="value">The enum value</param>
         /// <returns>The DisplayAttribute or an empty one if not found</returns>
-        public static DisplayAttribute GetDisplayAttribute<T>(T value) where T : struct
+        public static DisplayAttribute GetDisplayAttribute<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(T value) where T : struct, Enum
         {
             var empty = new DisplayAttribute() { Name = string.Empty, Description = string.Empty };
-            var fieldInfo = value.GetType().GetField(value.ToString()!);
+            var fieldInfo = typeof(T).GetField(value.ToString());
             if (fieldInfo?.GetCustomAttributes(typeof(DisplayAttribute), false) is DisplayAttribute[] attributes && attributes.Length > 0)
             {
                 return attributes[0] ?? empty;
@@ -50,7 +51,7 @@ namespace Icomatic.Commons
         /// <param name="displayName">The display name to parse</param>
         /// <param name="result">The parsed enum value</param>
         /// <returns>True if parsing succeeded, false otherwise</returns>
-        public static bool TryParseFromDisplayName<T>(string displayName, out T result) where T : struct, Enum
+        public static bool TryParseFromDisplayName<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(string displayName, out T result) where T : struct, Enum
         {
             result = default;
             if (string.IsNullOrWhiteSpace(displayName))

@@ -32,7 +32,7 @@ namespace Icomatic.Core.Processing
             mask.Draw(drawables);
 
             // Enable alpha channel and apply mask
-            result.Alpha(AlphaOption.Set);
+            result.Alpha(AlphaAction.Set);
             result.Composite(mask, CompositeOperator.DstIn);
 
             return (MagickImage)result;
@@ -63,7 +63,7 @@ namespace Icomatic.Core.Processing
             mask.Draw(drawables);
 
             // Enable alpha channel and apply mask
-            result.Alpha(AlphaOption.Set);
+            result.Alpha(AlphaAction.Set);
             result.Composite(mask, CompositeOperator.DstIn);
 
             return (MagickImage)result;
