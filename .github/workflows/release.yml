@@ -11,10 +11,14 @@ permissions:
 env:
   PACKAGE_NAME: icomatic
 
+defaults:
+  run:
+    shell: pwsh
+
 jobs:
   release:
     runs-on: windows-2022
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
@@ -27,33 +31,39 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore Icomatic/Icomatic.csproj
 
       - name: Build Program
-        run: dotnet build --no-restore -c Release
+        run: dotnet build Icomatic/Icomatic.csproj --no-restore -c Release
 
       - name: Set Tag
-        run: Write-Output ("VERSION=" + ("${{ github.ref_name }}" -replace 'v', '')) >> "$env:GITHUB_ENV"
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if ($env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$') {
+            throw "Invalid release tag: $env:RELEASE_TAG"
+          }
+          "VERSION=$($env:RELEASE_TAG.Substring(1))" >> "$env:GITHUB_ENV"
 
       - name: Publish Program for Windows
-        run: dotnet publish --no-restore -r win-x64 -c Release --property Version="$env:VERSION" --output ./publish/${{ env.PACKAGE_NAME }}_win_x64
+        run: dotnet publish Icomatic/Icomatic.csproj --no-restore -r win-x64 -c Release --property Version="$env:VERSION" --output "./publish/${env:PACKAGE_NAME}_win_x64"
 
       - name: Publish Program for Linux
-        run: dotnet publish --no-restore -r linux-x64 -c Release --property Version="$env:VERSION" --output ./publish/${{ env.PACKAGE_NAME }}_linux_x64
+        run: dotnet publish Icomatic/Icomatic.csproj --no-restore -r linux-x64 -c Release --property Version="$env:VERSION" --output "./publish/${env:PACKAGE_NAME}_linux_x64"
 
       - name: Zip
         run: |
-          mkdir -Force ./dist
-          Copy-Item LICENSE.txt ./publish/${{ env.PACKAGE_NAME }}_win_x64/
-          Copy-Item licenses.txt ./publish/${{ env.PACKAGE_NAME }}_win_x64/
-          Copy-Item LICENSE.txt ./publish/${{ env.PACKAGE_NAME }}_linux_x64/
-          Copy-Item licenses.txt ./publish/${{ env.PACKAGE_NAME }}_linux_x64/
-          Compress-Archive -Path ${{ github.workspace }}\publish\${{ env.PACKAGE_NAME }}_win_x64 -DestinationPath ./dist/${{ env.PACKAGE_NAME }}_win_x64.zip
-          Compress-Archive -Path ${{ github.workspace }}\publish\${{ env.PACKAGE_NAME }}_linux_x64 -DestinationPath ./dist/${{ env.PACKAGE_NAME }}_linux_x64.zip
-          ls ./dist
+          New-Item -ItemType Directory -Force ./dist | Out-Null
+          foreach ($platform in 'win_x64', 'linux_x64') {
+            $package = "${env:PACKAGE_NAME}_$platform"
+            $directory = "./publish/$package"
+            Copy-Item -LiteralPath LICENSE.txt, licenses.txt -Destination $directory
+            Compress-Archive -LiteralPath $directory -DestinationPath "./dist/$package.zip"
+          }
+          Get-ChildItem ./dist
 
       - name: Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
@@ -61,3 +71,4 @@ jobs:
             ./dist/${{ env.PACKAGE_NAME }}_linux_x64.zip
           generate_release_notes: true
           draft: true
+          fail_on_unmatched_files: true
