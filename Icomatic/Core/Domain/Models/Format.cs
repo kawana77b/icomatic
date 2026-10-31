@@ -42,6 +42,11 @@ namespace Icomatic.Core.Domain.Models
         public static readonly SupportedFormat GIF = SupportedFormat.GIF;
         public static readonly SupportedFormat TIFF = SupportedFormat.TIFF;
 
+        /// <summary>
+        /// Determines the supported image format from a file extension.
+        /// </summary>
+        /// <param name="path">The file path whose extension is inspected.</param>
+        /// <returns>The matching format, or null if the extension is unsupported.</returns>
         public static SupportedFormat? Get(string path)
         {
             var extension = Path.GetExtension(path).ToLowerInvariant();
@@ -62,6 +67,12 @@ namespace Icomatic.Core.Domain.Models
 
     internal static partial class FormatExtensions
     {
+        /// <summary>
+        /// Gets the default filename extension, including the leading period.
+        /// </summary>
+        /// <param name="this">The supported image format.</param>
+        /// <returns>The default extension for the format.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">The format value is undefined.</exception>
         public static string GetDefaultExtension(this Format.SupportedFormat @this)
         {
             return @this switch
@@ -78,8 +89,19 @@ namespace Icomatic.Core.Domain.Models
             };
         }
 
+        /// <summary>
+        /// Gets the display name of an image format.
+        /// </summary>
+        /// <param name="this">The supported image format.</param>
+        /// <returns>The display name, or an empty string if no name is defined.</returns>
         public static string GetName(this Format.SupportedFormat @this) => EnumUtilities.ToDisplayName(@this);
 
+        /// <summary>
+        /// Converts a supported image format to its ImageMagick equivalent.
+        /// </summary>
+        /// <param name="this">The supported image format.</param>
+        /// <returns>The corresponding ImageMagick format.</returns>
+        /// <exception cref="NotSupportedException">The format has no supported mapping.</exception>
         public static MagickFormat ToMagickFormat(this Format.SupportedFormat @this)
         {
             return @this switch
@@ -96,6 +118,12 @@ namespace Icomatic.Core.Domain.Models
             };
         }
 
+        /// <summary>
+        /// Converts an ImageMagick format to a supported image format.
+        /// </summary>
+        /// <param name="this">The ImageMagick format to convert.</param>
+        /// <returns>The corresponding supported format.</returns>
+        /// <exception cref="NotSupportedException">The format has no supported mapping.</exception>
         public static Format.SupportedFormat ToSupportedFormat(this MagickFormat @this)
         {
             return @this switch

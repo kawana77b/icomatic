@@ -10,11 +10,17 @@ namespace Icomatic.Services
         private const double DefaultCornerRadius = 0.2;
         private readonly IConsoleUserInterface _consoleUI;
 
+        /// <summary>
+        /// Initializes the icon generation service with a console user interface.
+        /// </summary>
+        /// <param name="consoleUI">The interface used to report progress and generated files.</param>
+        /// <exception cref="ArgumentNullException">The console interface is null.</exception>
         public IconGenerationService(IConsoleUserInterface consoleUI)
         {
             _consoleUI = consoleUI ?? throw new ArgumentNullException(nameof(consoleUI));
         }
 
+        /// <inheritdoc />
         public void GenerateIcons(Image sourceImage, TemplateDefinitions.TemplateInfo[] templateInfos,
                                  string saveDirectory, string prefix, IconStyle.Style style)
         {

@@ -9,6 +9,7 @@ namespace Icomatic.Commands
 {
     internal class RootCommandHandler : BaseCommandHandler
     {
+        /// <inheritdoc />
         public override int Execute(ParseResult parseResult, IServiceProvider serviceProvider)
         {
             var validator = GetService<IIconGenerationValidator>(serviceProvider);

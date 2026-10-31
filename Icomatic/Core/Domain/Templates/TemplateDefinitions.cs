@@ -43,6 +43,11 @@ namespace Icomatic.Core.Domain.Templates
             public Size Size { get; init; } = new Size(1, 1);
             public string Name { get; set; } = string.Empty;
 
+            /// <summary>
+            /// Builds the output filename from the template name, prefix, and default format extension.
+            /// </summary>
+            /// <param name="prefix">The optional prefix; nonblank prefixes are followed by a hyphen.</param>
+            /// <returns>The output filename including its extension.</returns>
             public string Filename(string prefix = "") => $"{WithPrefixName(prefix)}{Format.GetDefaultExtension()}";
             private string WithPrefixName(string prefix = "") => string.IsNullOrWhiteSpace(prefix) ? Name : $"{prefix}-{Name}";
         }
@@ -465,6 +470,10 @@ namespace Icomatic.Core.Domain.Templates
             },
         ];
 
+        /// <summary>
+        /// Gets the icon definitions grouped by template category.
+        /// </summary>
+        /// <returns>A read-only dictionary of template categories and their output definitions.</returns>
         public static ReadOnlyDictionary<Category, IEnumerable<TemplateInfo>> GetAvailableTemplates()
         {
             var dict = new Dictionary<Category, IEnumerable<TemplateInfo>>
@@ -482,6 +491,10 @@ namespace Icomatic.Core.Domain.Templates
             return new ReadOnlyDictionary<Category, IEnumerable<TemplateInfo>>(dict);
         }
 
+        /// <summary>
+        /// Gets the icon definitions keyed by case-sensitive template display name.
+        /// </summary>
+        /// <returns>A read-only dictionary of template names and their output definitions.</returns>
         public static ReadOnlyDictionary<string, IEnumerable<TemplateInfo>> GetTemplatesByName()
         {
             var dict = new Dictionary<string, IEnumerable<TemplateInfo>>();
@@ -491,6 +504,10 @@ namespace Icomatic.Core.Domain.Templates
             return new ReadOnlyDictionary<string, IEnumerable<TemplateInfo>>(dict);
         }
 
+        /// <summary>
+        /// Gets all available template display names in sorted order.
+        /// </summary>
+        /// <returns>The sorted template names.</returns>
         public static string[] GetTemplateNames()
         {
             return [.. GetTemplatesByName().Keys.OrderBy(x => x)];
@@ -499,8 +516,18 @@ namespace Icomatic.Core.Domain.Templates
 
     internal static class CategoryExtensions
     {
+        /// <summary>
+        /// Gets the display name of a template category.
+        /// </summary>
+        /// <param name="this">The template category.</param>
+        /// <returns>The display name, or an empty string if no name is defined.</returns>
         public static string GetName(this TemplateDefinitions.Category @this) => EnumUtilities.ToDisplayName(@this);
 
+        /// <summary>
+        /// Gets the description of a template category.
+        /// </summary>
+        /// <param name="this">The template category.</param>
+        /// <returns>The category description, or an empty string if none is defined.</returns>
         public static string GetDescription(this TemplateDefinitions.Category @this) => EnumUtilities.ToDisplayDescription(@this);
     }
 }

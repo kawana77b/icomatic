@@ -5,6 +5,7 @@ namespace Icomatic.Infrastructure.Console
 {
     internal class TreeDisplayService : ITreeDisplayService
     {
+        /// <inheritdoc />
         public void DisplayFilesAsTree(TemplateDefinitions.TemplateInfo[] templateInfos, string? prefix = null)
         {
             System.Console.WriteLine("Generated files structure:");
@@ -23,6 +24,7 @@ namespace Icomatic.Infrastructure.Console
             }
         }
 
+        /// <inheritdoc />
         public void DisplayFilesAsTree(IEnumerable<string> filenames)
         {
             System.Console.WriteLine("Generated files structure:");
@@ -39,6 +41,7 @@ namespace Icomatic.Infrastructure.Console
             }
         }
 
+        /// <inheritdoc />
         public string FormatFileEntry(string filename, string? sizeInfo = null, string? formatInfo = null)
         {
             var details = new List<string>();

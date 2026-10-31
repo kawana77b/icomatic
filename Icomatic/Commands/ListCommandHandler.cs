@@ -7,6 +7,7 @@ namespace Icomatic.Commands
 {
     internal class ListCommandHandler : BaseCommandHandler
     {
+        /// <inheritdoc />
         public override int Execute(ParseResult parseResult, IServiceProvider serviceProvider)
         {
             var templateService = GetService<ITemplateService>(serviceProvider);

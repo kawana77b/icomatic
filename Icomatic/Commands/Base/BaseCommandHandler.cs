@@ -6,6 +6,7 @@ namespace Icomatic.Commands.Base
 {
     internal abstract class BaseCommandHandler : ICommandHandler
     {
+        /// <inheritdoc />
         public abstract int Execute(ParseResult parseResult, IServiceProvider serviceProvider);
 
         protected static IConsoleUserInterface GetConsoleUI(IServiceProvider serviceProvider)

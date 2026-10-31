@@ -6,6 +6,7 @@ namespace Icomatic.Infrastructure.Console
 {
     internal class UserPromptService : IUserPromptService
     {
+        /// <inheritdoc />
         public IconStyle.Style PromptForStyle(string defaultValue = "round")
         {
             var styleOptions = IconStyle.Styles.Select(s => s.GetName()).ToArray();
@@ -18,6 +19,7 @@ namespace Icomatic.Infrastructure.Console
             throw new ArgumentException($"Invalid style: {selectedStyleName}");
         }
 
+        /// <inheritdoc />
         public string PromptForTemplate(IEnumerable<string> availableTemplates, string defaultValue = "pwa")
         {
             var templateNames = availableTemplates.ToArray();
