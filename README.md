@@ -15,19 +15,27 @@ Binaries are available on the [release page](https://github.com/kawana77b/icomat
 
 See the [architecture overview](docs/architecture.md) for the code structure and processing flow.
 
-Install the .NET 10.0.403 SDK or later. `global.json` selects the latest installed stable .NET 10 SDK.
+Install the .NET 10.0.402 SDK or a later stable .NET 10.0 SDK. `global.json` selects
+the latest installed compatible feature band and patch, excluding prereleases.
 Self-contained releases use .NET runtime 10.0.14.
 
 ```bash
-dotnet restore
-dotnet build --no-restore -c Release
+dotnet restore Icomatic.sln
+dotnet build Icomatic.sln --no-restore -c Release
+dotnet test Icomatic.Test/Icomatic.Test.csproj --no-build --no-restore -c Release
 dotnet publish Icomatic/Icomatic.csproj --no-restore -r win-x64 -c Release
 dotnet publish Icomatic/Icomatic.csproj --no-restore -r linux-x64 -c Release
 ```
 
+The xUnit project, `Icomatic.Test`, covers resizing, transparent masks, output
+definitions, and input validation. It generates images in memory and substitutes
+interactive prompts, so no image assets or network access are required to run the
+tests after restoring dependencies.
+
 ## usage
 
-Displays a set of icons in the current folder. Prompts you to generate an icon set with your selections.
+Generates an icon set in the current folder. Prompts for a style and template,
+then asks for confirmation before generating files.
 
 ```bash
 icomatic foo.png
@@ -53,13 +61,24 @@ icomatic info pwa
 
 ## supported formats
 
-Currently, the format is validated only with a simple extension check.
+Local input files must exist and have one of the following extensions
+(case-insensitive). Image decoding happens after this initial validation.
 
 - png
-- jpg
+- jpg / jpeg
+- webp
 - bmp
 - ico
-- svg (Read)
+- svg (input only)
+- gif
+- tif / tiff
+
+HTTP/HTTPS inputs are checked as URLs without requiring a recognized image
+extension; the downloaded content must still be decodable as an image.
+
+Output dimensions and formats are defined by the selected template. The `plane`
+style uses the template's format. The `round` and `circle` styles always write PNG
+data to preserve transparency, but keep the template's filename extension.
 
 ## template list
 
