@@ -5,8 +5,9 @@ image or HTTP/HTTPS image URL. Built-in templates define the output filenames,
 dimensions, and formats. The user selects a template and a style, confirms the
 planned output, and receives the generated files.
 
-The solution contains one executable project, `Icomatic`. Templates are defined
-in C#; there is no separate template configuration file or database.
+The solution contains the executable project, `Icomatic`, and the xUnit test
+project, `Icomatic.Test`. Templates are defined in C#; there is no separate
+template configuration file or database.
 
 ## Code structure
 
@@ -109,6 +110,31 @@ Common changes usually start in these places:
 Most services are accessed through interfaces. One current exception is
 `IconGenerationService`, which constructs `ImageProcessingService` directly even
 though `IImageProcessingService` is also registered in the container.
+
+## Tests
+
+`Icomatic.Test` references the executable project. The executable grants internal
+access to this test assembly through `InternalsVisibleTo`, allowing tests to
+exercise internal types without making them public.
+
+- `ImageProcessingTests` checks exact resize dimensions, source preservation,
+  transparent corners, centered circular masks on rectangular images, and
+  preservation of existing transparency.
+- `OutputDefinitionTests` checks extension recognition and format conversion,
+  filename prefixes, and unique output filenames within each template.
+- `IconGenerationValidatorTests` checks explicit options, prompting for omitted
+  selections, and rejection of invalid styles and templates. A test implementation
+  of `IUserPromptService` replaces interactive input.
+
+Images are generated in memory. The URL used in validation tests is never
+downloaded, so the tests require no external image assets or network access after
+dependency restore. They do not exercise actual downloads or file generation.
+
+Run the tests from the repository root:
+
+```bash
+dotnet test Icomatic.Test/Icomatic.Test.csproj
+```
 
 See the [README](../README.md) for build commands and usage examples. Shared method
 documentation is primarily on interfaces, with implementations using
