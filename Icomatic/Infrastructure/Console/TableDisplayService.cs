@@ -10,10 +10,7 @@ namespace Icomatic.Infrastructure.Console
 {
     internal class TableDisplayService : ITableDisplayService
     {
-        /// <summary>
-        /// Displays a generic table with automatic property mapping
-        /// </summary>
-
+        /// <inheritdoc />
         public void DisplayTable<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>
 
         (IEnumerable<T> data, params string[] columnHeaders)
@@ -38,9 +35,7 @@ namespace Icomatic.Infrastructure.Console
             ConfigureAndWriteTable(table);
         }
 
-        /// <summary>
-        /// Displays a table with custom row selector
-        /// </summary>
+        /// <inheritdoc />
         public void DisplayTable<T>(IEnumerable<T> data, Func<T, object[]> rowSelector, params string[] columnHeaders)
         {
             if (!data.Any())
@@ -60,17 +55,13 @@ namespace Icomatic.Infrastructure.Console
             ConfigureAndWriteTable(table);
         }
 
-        /// <summary>
-        /// Displays a key-value table
-        /// </summary>
+        /// <inheritdoc />
         public void DisplayKeyValueTable<T>(IEnumerable<T> data, Func<T, string> keySelector, Func<T, string> valueSelector, string keyHeader = "Name", string valueHeader = "Value")
         {
             DisplayTable(data, item => new object[] { keySelector(item), valueSelector(item) }, keyHeader, valueHeader);
         }
 
-        /// <summary>
-        /// Specialized method for displaying template categories
-        /// </summary>
+        /// <inheritdoc />
         public void DisplayTemplatesTable(IEnumerable<TemplateDefinitions.Category> templates)
         {
             DisplayKeyValueTable(

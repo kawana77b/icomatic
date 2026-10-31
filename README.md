@@ -13,6 +13,8 @@ Binaries are available on the [release page](https://github.com/kawana77b/icomat
 
 ## development
 
+See the [architecture overview](docs/architecture.md) for the code structure and processing flow.
+
 Install the .NET 10.0.403 SDK or later. `global.json` selects the latest installed stable .NET 10 SDK.
 Self-contained releases use .NET runtime 10.0.14.
 

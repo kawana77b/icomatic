@@ -7,6 +7,7 @@ namespace Icomatic.Infrastructure.Console
 {
     internal class ConsoleUserInterface : IConsoleUserInterface
     {
+        /// <inheritdoc />
         public bool PromptConfirmation(TemplateDefinitions.TemplateInfo[] infos, string saveDirectory, string prefix, string template, IconStyle.Style style)
         {
             WriteInfo($"Template: {template}");
@@ -27,6 +28,7 @@ namespace Icomatic.Infrastructure.Console
             return Prompt.Confirm("Do you want to proceed?");
         }
 
+        /// <inheritdoc />
         public void WriteSuccess(string message)
         {
             System.Console.ForegroundColor = ConsoleColor.Green;
@@ -34,6 +36,7 @@ namespace Icomatic.Infrastructure.Console
             System.Console.ResetColor();
         }
 
+        /// <inheritdoc />
         public void WriteError(string message)
         {
             System.Console.ForegroundColor = ConsoleColor.Red;
@@ -41,6 +44,7 @@ namespace Icomatic.Infrastructure.Console
             System.Console.ResetColor();
         }
 
+        /// <inheritdoc />
         public void WriteWarning(string message)
         {
             System.Console.ForegroundColor = ConsoleColor.Yellow;
@@ -48,11 +52,13 @@ namespace Icomatic.Infrastructure.Console
             System.Console.ResetColor();
         }
 
+        /// <inheritdoc />
         public void WriteInfo(string message)
         {
             System.Console.WriteLine(message);
         }
 
+        /// <inheritdoc />
         public void WriteGeneratedFile(string filename)
         {
             WriteInfo($"Generated: {filename}");

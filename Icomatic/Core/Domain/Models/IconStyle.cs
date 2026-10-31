@@ -28,6 +28,11 @@ namespace Icomatic.Core.Domain.Models
 
     internal static class IconStyleExtensions
     {
+        /// <summary>
+        /// Gets the display name of an icon style.
+        /// </summary>
+        /// <param name="this">The icon style.</param>
+        /// <returns>The display name, or an empty string if no name is defined.</returns>
         public static string GetName(this IconStyle.Style @this) => EnumUtilities.ToDisplayName(@this);
     }
 }

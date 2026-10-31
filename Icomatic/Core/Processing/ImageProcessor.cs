@@ -6,10 +6,11 @@ namespace Icomatic.Core.Processing
     internal static class ImageProcessor
     {
         /// <summary>
-        /// Make the image icon-like with rounded corners
+        /// Creates a PNG copy with transparent rounded corners.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="cornerRadius"></param>
+        /// <param name="image">The source image, which is left unchanged.</param>
+        /// <param name="cornerRadius">The corner radius as a fraction of the shorter dimension, with a minimum of one pixel.</param>
+        /// <returns>A new image that the caller must dispose.</returns>
         public static MagickImage RoundedCorners(MagickImage image, double cornerRadius = 0.2)
         {
             var result = image.Clone()!;
@@ -39,9 +40,10 @@ namespace Icomatic.Core.Processing
         }
 
         /// <summary>
-        /// Make the image circular by cropping it to a circle
+        /// Creates a PNG copy with transparency outside a centered circle, preserving the image dimensions.
         /// </summary>
-        /// <param name="image"></param>
+        /// <param name="image">The source image, which is left unchanged.</param>
+        /// <returns>A new image that the caller must dispose.</returns>
         public static MagickImage CircularCrop(MagickImage image)
         {
             var result = image.Clone()!;

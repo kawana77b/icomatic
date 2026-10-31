@@ -5,6 +5,7 @@ namespace Icomatic.Services
 {
     internal class TemplateService : ITemplateService
     {
+        /// <inheritdoc />
         public TemplateDefinitions.TemplateInfo[] GetTemplateInformations(string templateName)
         {
             if (!IsValidTemplate(templateName))
@@ -16,11 +17,13 @@ namespace Icomatic.Services
             return [.. templates.GetValueOrDefault(templateName)!];
         }
 
+        /// <inheritdoc />
         public TemplateDefinitions.Category[] GetAvailableTemplates()
         {
             return [.. TemplateDefinitions.GetAvailableTemplates().Select(x => x.Key).OrderBy(x => x.GetName())];
         }
 
+        /// <inheritdoc />
         public bool IsValidTemplate(string templateName)
         {
             var templates = TemplateDefinitions.GetTemplatesByName();

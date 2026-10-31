@@ -7,12 +7,16 @@ namespace Icomatic.Services
     {
         private readonly HttpClient _httpClient;
 
+        /// <summary>
+        /// Initializes an image downloader with its own HTTP client.
+        /// </summary>
         public WebImageDownloadService()
         {
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "IconGenerator/1.0");
         }
 
+        /// <inheritdoc />
         public async Task<MagickImage> DownloadImageAsync(string url)
         {
             try
@@ -29,6 +33,9 @@ namespace Icomatic.Services
             }
         }
 
+        /// <summary>
+        /// Releases the HTTP client used to download images.
+        /// </summary>
         public void Dispose()
         {
             _httpClient?.Dispose();
