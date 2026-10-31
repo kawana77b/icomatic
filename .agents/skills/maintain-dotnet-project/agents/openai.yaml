@@ -1,0 +1,4 @@
+interface:
+  display_name: ".NET Project Maintenance"
+  short_description: "Update icomatic's .NET LTS, dependencies, and release CI"
+  default_prompt: "Use $maintain-dotnet-project to upgrade this project to the latest .NET LTS and stable libraries, and verify its release CI."
