@@ -78,6 +78,8 @@ namespace Icomatic.Infrastructure.Console
         /// </summary>
         private static void ConfigureAndWriteTable(ConsoleTable table)
         {
+            table.MaxWidth = int.MaxValue;
+
             table
                 .Configure(configure =>
                 {
